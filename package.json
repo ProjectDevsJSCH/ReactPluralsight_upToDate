@@ -8,12 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/javascript-environment/React-pluralsight-up_to_date-.git"
+    "url": "git+https://github.com/javascript-environment/React-pluralsight-up_to_date.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/javascript-environment/React-pluralsight-up_to_date-/issues"
+    "url": "https://github.com/javascript-environment/React-pluralsight-up_to_date/issues"
   },
-  "homepage": "https://github.com/javascript-environment/React-pluralsight-up_to_date-#readme"
+  "homepage": "https://github.com/javascript-environment/React-pluralsight-up_to_date#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-connect": "^5.7.0",
+    "gulp-open": "^3.0.1"
+  }
 }
