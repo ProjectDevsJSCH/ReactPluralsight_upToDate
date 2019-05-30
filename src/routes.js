@@ -5,6 +5,7 @@ var Redirect = require('react-router-dom').Redirect;
 
 var Home = require('./Components/homePage');
 var Authors = require('./Components/authors/authorPage');
+var Author = require('./Components/authors/ManageAuthorPage');
 var About = require('./Components/about/aboutPage');
 var NotFound = require('./Components/notFoundPage');
 
@@ -15,8 +16,10 @@ class Routes extends React.Component {
             <Switch>
                <Route exact path="/" component={Home} />
                <Route path="/authors" component={Authors} />
-               <Route path="/about" component={About} />
+               <Route path="/author" component={Author} />
+               <PrivateRoute path="/about" component={About} />
                <Redirect from="/about-us" to="/about" />
+               <Redirect from="/about/*" to="/about" />
                <Route component={NotFound} />
             </Switch>
          </div>
@@ -24,14 +27,17 @@ class Routes extends React.Component {
    }
 }
 
-
-
-// <Route name="app" path="/" handler={require('./components/app')}>
-//    <DefaultRoute handler={require('./components/homePage')} />
-//    {/* When there is not path, it takes the name as the path */}
-//    <Route name="authors" handler={require('./components/authors/authorPage')} />
-//    <Route name="about" handler={require('./components/about/aboutPage')} />
-// </Route>
-
+function PrivateRoute({ component: Component, path }) {
+   return (
+      <Route
+         exact path={path}
+         render={(props) => 
+            confirm("Are you sure?") ? (
+               <Component />
+            ) : ( <Redirect to="/">{console.log()}</Redirect> )
+         }
+      />
+   );
+}
 
 module.exports = Routes;

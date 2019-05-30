@@ -1,5 +1,7 @@
 var React = require('react');
 var AuthorApi = require('../../api/authorApi');
+var Link = require('react-router-dom').Link;
+
 var AuthorList = require('./authorList');
 
 class Authors extends React.Component {
@@ -15,22 +17,13 @@ class Authors extends React.Component {
    }
 
    render() {
-
-      function createAuthorRow(author) {
-         return (
-            <tr key={author.id}>
-               <td><a href={"/#authors/" + author.id}>{author.id}</a></td>
-               <td>{author.firstName} {author.lastName}</td>
-            </tr>
-         );
-      }
-
       return (
          // <div>
          //    <AuthorList authors={this.state.authors} />
          // </div>
          <div>
             <h1>Authors</h1>
+            <Link to="author" className="btn btn-primary">Add Author</Link>
             <AuthorList authors={this.state.authors} />
          </div>
       );

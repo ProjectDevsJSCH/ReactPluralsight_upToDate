@@ -1,9 +1,16 @@
 var React = require('react');
 var ReactRouter = require('react-router-dom');
+var Prompt = require('react-router-dom').Prompt;
 var Link = ReactRouter.Link;
 
 class Header extends React.Component {
-   render(){
+
+   constructor(props) {
+      super(props);
+   }
+
+   render() {
+
       return (
          <nav className="navbar navbar-default">
             <div className="container-fluid">
@@ -12,8 +19,8 @@ class Header extends React.Component {
                </a>
                <ul className="nav navbar-nav">
                   <li><Link to="/">Home</Link></li>
-                  <li><Link to="/authors">Authors</Link></li>
-                  <li><Link to="/about">About</Link></li>
+                  <li><Link to="authors">Authors</Link></li>
+                  <li><Link to="about" >About</Link></li>
                </ul>
             </div>
          </nav>

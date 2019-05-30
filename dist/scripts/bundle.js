@@ -56859,8 +56859,10 @@ module.exports = exports['default'];
 },{}],46:[function(require,module,exports){
 
 var React = require('react');
+var Prompt = require('react-router-dom').Prompt;
 
 class About extends React.Component {
+
    render() {
       return (
          React.createElement("div", null, 
@@ -56876,7 +56878,10 @@ class About extends React.Component {
                React.createElement("li", null, "Gulp"), 
                React.createElement("li", null, "Browserify"), 
                React.createElement("li", null, "Bootstrap")
-            )
+            ), 
+            React.createElement(Prompt, {
+               when: true, 
+               message: "Are you sure you want to leave?"})
          )
       );
    }
@@ -56884,7 +56889,7 @@ class About extends React.Component {
 
 module.exports = About;
 
-},{"react":35}],47:[function(require,module,exports){
+},{"react":35,"react-router-dom":29}],47:[function(require,module,exports){
 $ = jQuery = require('jquery'); // Declare jquery global in the scripts
 
 var React = require('react');
@@ -56909,7 +56914,82 @@ class App extends React.Component {
 
 module.exports = App;
 
-},{"../routes":56,"./common/header":50,"jquery":10,"react":35,"react-router-dom":29}],48:[function(require,module,exports){
+},{"../routes":58,"./common/header":52,"jquery":10,"react":35,"react-router-dom":29}],48:[function(require,module,exports){
+var React = require('react');
+
+var AuthorForm = require('./authorForm');
+
+
+class ManageAuthorPage extends React.Component {
+
+   constructor(props) {
+      super(props);
+      
+      this.state = {
+         author: {id: '', firstName: '', lastName: ''}
+      };
+
+      this.setAuthorState = this.setAuthorState.bind(this);
+
+   }
+
+   setAuthorState(event) {
+      var field = event.target.name;
+      var value = event.target.value;
+      this.state.author[field] = value;
+      return this.setState({ author: this.state.author });
+   }
+
+   render() {
+      return (
+         React.createElement("div", null, 
+            React.createElement(AuthorForm, {
+               author: this.state.author, 
+               onChange: this.setAuthorState})
+         )
+      );
+   }
+}
+
+module.exports = ManageAuthorPage;
+
+},{"./authorForm":49,"react":35}],49:[function(require,module,exports){
+var React = require('react');
+
+class AuthorForm extends React.Component {
+   render() {
+      return (
+         React.createElement("form", null, 
+            React.createElement("h1", null, "Manage Author"), 
+            React.createElement("label", {htmlFor: "firstName"}, "Last Name"), 
+            React.createElement("input", {type: "text", 
+               name: "firstName", 
+               className: "form-control", 
+               placeholder: "First Name", 
+               ref: "firstName", 
+               onChange: this.props.onChange, 
+               value: this.props.author.firstName}), 
+            React.createElement("br", null), 
+
+            React.createElement("label", {htmlFor: "lastName"}, "Last Name"), 
+            React.createElement("input", {type: "text", 
+               name: "lastName", 
+               className: "form-control", 
+               placeholder: "Last Name", 
+               ref: "lastName", 
+               onChange: this.props.onChange, 
+               value: this.props.author.lastName}), 
+            React.createElement("br", null), 
+
+            React.createElement("input", {type: "submit", value: "Save", className: "btn btn-primary"})
+         )
+      );
+   }
+}
+
+module.exports = AuthorForm;
+
+},{"react":35}],50:[function(require,module,exports){
 var React = require('react');
 
 function createAuthorRow(author) {
@@ -56947,9 +57027,11 @@ class AuthorList extends React.Component {
 
 
 module.exports = AuthorList;
-},{"react":35}],49:[function(require,module,exports){
+},{"react":35}],51:[function(require,module,exports){
 var React = require('react');
 var AuthorApi = require('../../api/authorApi');
+var Link = require('react-router-dom').Link;
+
 var AuthorList = require('./authorList');
 
 class Authors extends React.Component {
@@ -56965,22 +57047,13 @@ class Authors extends React.Component {
    }
 
    render() {
-
-      function createAuthorRow(author) {
-         return (
-            React.createElement("tr", {key: author.id}, 
-               React.createElement("td", null, React.createElement("a", {href: "/#authors/" + author.id}, author.id)), 
-               React.createElement("td", null, author.firstName, " ", author.lastName)
-            )
-         );
-      }
-
       return (
          // <div>
          //    <AuthorList authors={this.state.authors} />
          // </div>
          React.createElement("div", null, 
             React.createElement("h1", null, "Authors"), 
+            React.createElement(Link, {to: "author", className: "btn btn-primary"}, "Add Author"), 
             React.createElement(AuthorList, {authors: this.state.authors})
          )
       );
@@ -56989,13 +57062,20 @@ class Authors extends React.Component {
 
 module.exports = Authors;
 
-},{"../../api/authorApi":53,"./authorList":48,"react":35}],50:[function(require,module,exports){
+},{"../../api/authorApi":55,"./authorList":50,"react":35,"react-router-dom":29}],52:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router-dom');
+var Prompt = require('react-router-dom').Prompt;
 var Link = ReactRouter.Link;
 
 class Header extends React.Component {
-   render(){
+
+   constructor(props) {
+      super(props);
+   }
+
+   render() {
+
       return (
          React.createElement("nav", {className: "navbar navbar-default"}, 
             React.createElement("div", {className: "container-fluid"}, 
@@ -57004,8 +57084,8 @@ class Header extends React.Component {
                ), 
                React.createElement("ul", {className: "nav navbar-nav"}, 
                   React.createElement("li", null, React.createElement(Link, {to: "/"}, "Home")), 
-                  React.createElement("li", null, React.createElement(Link, {to: "/authors"}, "Authors")), 
-                  React.createElement("li", null, React.createElement(Link, {to: "/about"}, "About"))
+                  React.createElement("li", null, React.createElement(Link, {to: "authors"}, "Authors")), 
+                  React.createElement("li", null, React.createElement(Link, {to: "about"}, "About"))
                )
             )
          )
@@ -57015,7 +57095,7 @@ class Header extends React.Component {
 
 module.exports = Header;
 
-},{"react":35,"react-router-dom":29}],51:[function(require,module,exports){
+},{"react":35,"react-router-dom":29}],53:[function(require,module,exports){
 
 var React = require('react');
 
@@ -57033,7 +57113,7 @@ class Home extends React.Component{
 
 module.exports = Home;
 
-},{"react":35}],52:[function(require,module,exports){
+},{"react":35}],54:[function(require,module,exports){
 var React = require('react');
 var Link = require('react-router-dom').Link;
 
@@ -57051,7 +57131,7 @@ class NotFoundPage extends React.Component{
 
 module.exports = NotFoundPage;
 
-},{"react":35,"react-router-dom":29}],53:[function(require,module,exports){
+},{"react":35,"react-router-dom":29}],55:[function(require,module,exports){
 
 //This file is mocking a web API by hitting hard coded data.
 var authors = require('./authorData').authors;
@@ -57102,7 +57182,7 @@ var AuthorApi = {
 
 module.exports = AuthorApi;
 
-},{"./authorData":54,"lodash":11}],54:[function(require,module,exports){
+},{"./authorData":56,"lodash":11}],56:[function(require,module,exports){
 module.exports = {
    authors:
    [
@@ -57125,14 +57205,15 @@ module.exports = {
    ]
 };
 
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var ReactDOM = require('react-dom');
+var Router = require('react-router-dom');
 var App = require('./Components/app');
 var React = require('react');
 
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
-},{"./Components/app":47,"react":35,"react-dom":23}],56:[function(require,module,exports){
+},{"./Components/app":47,"react":35,"react-dom":23,"react-router-dom":29}],58:[function(require,module,exports){
 var React = require('react');
 var Route = require('react-router-dom').Route;
 var Switch = require('react-router-dom').Switch;
@@ -57140,6 +57221,7 @@ var Redirect = require('react-router-dom').Redirect;
 
 var Home = require('./Components/homePage');
 var Authors = require('./Components/authors/authorPage');
+var Author = require('./Components/authors/ManageAuthorPage');
 var About = require('./Components/about/aboutPage');
 var NotFound = require('./Components/notFoundPage');
 
@@ -57150,8 +57232,10 @@ class Routes extends React.Component {
             React.createElement(Switch, null, 
                React.createElement(Route, {exact: true, path: "/", component: Home}), 
                React.createElement(Route, {path: "/authors", component: Authors}), 
-               React.createElement(Route, {path: "/about", component: About}), 
+               React.createElement(Route, {path: "/author", component: Author}), 
+               React.createElement(PrivateRoute, {path: "/about", component: About}), 
                React.createElement(Redirect, {from: "/about-us", to: "/about"}), 
+               React.createElement(Redirect, {from: "/about/*", to: "/about"}), 
                React.createElement(Route, {component: NotFound})
             )
          )
@@ -57159,16 +57243,19 @@ class Routes extends React.Component {
    }
 }
 
-
-
-// <Route name="app" path="/" handler={require('./components/app')}>
-//    <DefaultRoute handler={require('./components/homePage')} />
-//    {/* When there is not path, it takes the name as the path */}
-//    <Route name="authors" handler={require('./components/authors/authorPage')} />
-//    <Route name="about" handler={require('./components/about/aboutPage')} />
-// </Route>
-
+function PrivateRoute({ component: Component, path }) {
+   return (
+      React.createElement(Route, {
+         exact: true, path: path, 
+         render: (props) => 
+            confirm("Are you sure?") ? (
+               React.createElement(Component, null)
+            ) : ( React.createElement(Redirect, {to: "/"}, console.log()) )
+         }
+      )
+   );
+}
 
 module.exports = Routes;
 
-},{"./Components/about/aboutPage":46,"./Components/authors/authorPage":49,"./Components/homePage":51,"./Components/notFoundPage":52,"react":35,"react-router-dom":29}]},{},[55]);
+},{"./Components/about/aboutPage":46,"./Components/authors/ManageAuthorPage":48,"./Components/authors/authorPage":51,"./Components/homePage":53,"./Components/notFoundPage":54,"react":35,"react-router-dom":29}]},{},[57]);

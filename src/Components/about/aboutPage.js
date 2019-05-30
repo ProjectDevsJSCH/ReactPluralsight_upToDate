@@ -1,7 +1,9 @@
 
 var React = require('react');
+var Prompt = require('react-router-dom').Prompt;
 
 class About extends React.Component {
+
    render() {
       return (
          <div>
@@ -18,6 +20,9 @@ class About extends React.Component {
                <li>Browserify</li>
                <li>Bootstrap</li>
             </ul>
+            <Prompt 
+               when={true}
+               message="Are you sure you want to leave?" />
          </div>
       );
    }
