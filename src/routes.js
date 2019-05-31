@@ -5,9 +5,10 @@ var Redirect = require('react-router-dom').Redirect;
 
 var Home = require('./Components/homePage');
 var Authors = require('./Components/authors/authorPage');
-var Author = require('./Components/authors/ManageAuthorPage');
+var Author = require('./Components/authors/manageAuthorPage');
 var About = require('./Components/about/aboutPage');
 var NotFound = require('./Components/notFoundPage');
+var ManageAuthorPage = require('./Components/authors/manageAuthorPage');
 
 class Routes extends React.Component {
    render() {
@@ -15,8 +16,9 @@ class Routes extends React.Component {
          <div>
             <Switch>
                <Route exact path="/" component={Home} />
-               <Route path="/authors" component={Authors} />
+               <Route exact path="/authors" component={Authors} />
                <Route path="/author" component={Author} />
+               <Route path="/author/:id" component={ManageAuthorPage}/>
                <PrivateRoute path="/about" component={About} />
                <Redirect from="/about-us" to="/about" />
                <Redirect from="/about/*" to="/about" />
