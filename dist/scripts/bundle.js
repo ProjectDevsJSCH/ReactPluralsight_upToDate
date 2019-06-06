@@ -57551,7 +57551,7 @@ class ManageAuthorPage extends React.Component {
       return this.setState({ author: this.state.author });
    }
 
-   saveAuthor(event) {
+   saveAuthor(event, f){
       event.preventDefault();
       if (!this.authorFormIsValid()) {
          return;
@@ -57607,6 +57607,7 @@ module.exports = ManageAuthorPage;
 },{"../../api/authorApi":57,"./authorForm":49,"react":35,"react-router-dom":29,"toastr":45}],53:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router-dom');
+var Redirect = require('react-router-dom').Redirect;
 var Prompt = require('react-router-dom').Prompt;
 var Link = ReactRouter.Link;
 
@@ -57614,6 +57615,19 @@ class Header extends React.Component {
 
    constructor(props) {
       super(props);
+
+      this.state = {
+         flagConfirmation: false
+      };
+
+      this.updateState = this.updateState.bind(this);
+   }
+
+   updateState(e) {
+      e.preventDefault();
+      this.setState({
+         flagConfirmation: true
+      }, () => {console.log("Redirigido"); return React.createElement(Redirect, {to: "about"}) ;});
    }
 
    render() {
@@ -57627,9 +57641,12 @@ class Header extends React.Component {
                React.createElement("ul", {className: "nav navbar-nav"}, 
                   React.createElement("li", null, React.createElement(Link, {to: "/"}, "Home")), 
                   React.createElement("li", null, React.createElement(Link, {to: "authors"}, "Authors")), 
-                  React.createElement("li", null, React.createElement(Link, {to: "about"}, "About"))
+                  React.createElement("li", null, React.createElement(Link, {to: "about", onClick: this.updateState}, "About"))
                )
-            )
+            ), 
+            React.createElement(Prompt, {
+               when: this.state.flagConfirmation, 
+               message: "Are you sure you want to go to this boring page?"})
          )
       );
    }
@@ -57821,7 +57838,7 @@ class Routes extends React.Component {
                React.createElement(Route, {exact: true, path: "/authors", component: Authors}), 
                React.createElement(Route, {path: "/author", component: Author}), 
                React.createElement(Route, {path: "/author/:id", component: ManageAuthorPage}), 
-               React.createElement(PrivateRoute, {path: "/about", component: About}), 
+               React.createElement(Route, {path: "/about", component: About}), 
                React.createElement(Redirect, {from: "/about-us", to: "/about"}), 
                React.createElement(Redirect, {from: "/about/*", to: "/about"}), 
                React.createElement(Route, {component: NotFound})

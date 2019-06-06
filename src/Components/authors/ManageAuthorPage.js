@@ -42,7 +42,7 @@ class ManageAuthorPage extends React.Component {
       return this.setState({ author: this.state.author });
    }
 
-   saveAuthor(event) {
+   saveAuthor(event, f){
       event.preventDefault();
       if (!this.authorFormIsValid()) {
          return;
